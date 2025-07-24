@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Additional styling for better appearance */
+        button {
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        button:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        #image {
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="relative overflow-hidden">
+    <!-- Wrapper div with relative positioning -->
+    <div class="relative">
+        <!-- Navigation buttons -->
+        <button id="pButton" class="text-7xl text-red-600 absolute left-5 top-1/2 transform -translate-y-1/2 z-10 hover:text-red-800">&lArr;</button>
+        <button id="nButton" class="text-7xl text-red-600 absolute right-5 top-1/2 transform -translate-y-1/2 z-10 hover:text-red-800">&rArr;</button>
+        
+        <!-- Image element -->
+        <img id="image" class="w-full h-screen object-cover" src="" alt="Slider image">
+        
+        <!-- Optional indicator dots -->
+        <div id="indicatorDots" class="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            <!-- Dots will be added by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const image = document.getElementById("image");
+        const pButton = document.getElementById("pButton");
+        const nButton = document.getElementById("nButton");
+        const indicatorDots = document.getElementById("indicatorDots");
+
+        // Image array
+        const imageArray = [
+            "SliderImages/0.jpg",
+            "SliderImages/1.jpg",
+            "SliderImages/2.jpg",
+            "SliderImages/3.jpg",
+            "SliderImages/4.jpg",
+            "SliderImages/5.jpg",
+            "SliderImages/6.jpg",
+            "SliderImages/7.jpg",
+            "SliderImages/8.jpg",
+            "SliderImages/9.jpg"
+        ];
+
+        let currentIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        // Function to show image
+        function showImage(index) {
+            // Fade out effect
+            image.style.opacity = 0;
+            
+            setTimeout(() => {
+                image.src = imageArray[index];
+                // Fade in effect
+                image.style.opacity = 1;
+                updateIndicators();
+            }, 100);
+        }
+
+        // Function to update indicator dots
+        function updateIndicators() {
+            indicatorDots.innerHTML = '';
+            imageArray.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = `w-3 h-3 rounded-full cursor-pointer ${index === currentIndex ? 'bg-red-600' : 'bg-gray-300'}`;
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    showImage(currentIndex);
+                });
+                indicatorDots.appendChild(dot);
+            });
+        }
+
+        // Next button event
+        nButton.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % imageArray.length;
+            showImage(currentIndex);
+        });
+
+        // Previous button event
+        pButton.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
+            showImage(currentIndex);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % imageArray.length;
+                showImage(currentIndex);
+            } else if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
+                showImage(currentIndex);
+            }
+        });
+
+        // Touch events for mobile
+        image.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        image.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                // Swipe left - next image
+                currentIndex = (currentIndex + 1) % imageArray.length;
+                showImage(currentIndex);
+            } else if (touchEndX > touchStartX + 50) {
+                // Swipe right - previous image
+                currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
+                showImage(currentIndex);
+            }
+        }
+
+        // Auto-slide functionality (optional)
+        let slideInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % imageArray.length;
+            showImage(currentIndex);
+        }, 5000);
+
+        // Pause auto-slide on hover/mouseenter (optional)
+        image.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
+
+        // Resume auto-slide on mouseleave (optional)
+        image.addEventListener('mouseleave', () => {
+            slideInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % imageArray.length;
+                showImage(currentIndex);
+            }, 5000);
+        });
+
+        // Initialize
+        showImage(currentIndex);
+    </script>
+</body>
+</html>

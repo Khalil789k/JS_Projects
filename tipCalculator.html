@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIP CALCULATOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="flex justify-center items-center  min-h-screen">
+        <div class="bg-gray-800 text-white w-2/5 flex flex-col gap-2 p-6 rounded-3xl">
+            <div class=" w-full text-center text-4xl">TIP CALCULATOR</div>
+            <div class=" w-full">
+                <div class="py-1 text-xl">Enter Bill</div>
+                <input id="bill" type="text" class="w-full text-black py-0.5 px-1 rounded-sm outline-none">
+            </div>
+            <div class=" w-full">
+                <div class="py-1 text-xl">Enter Tip %</div>
+                <input id="tip" type="text" class="w-full text-black py-0.5 px-1 rounded-sm outline-none">
+            </div>
+            <button id="btn" class="w-full bg-blue-600 mt-2 p-1 rounded-sm text-xl">Calculate</button>
+            <div id="totalBill" class="w-full text-xl">Total Bill : </div>
+        </div>
+    </div>
+
+    <script>
+
+        const bill = document.getElementById("bill");
+        const tip = document.getElementById("tip");
+        const calculateBtn = document.getElementById("btn");
+        const totalBill = document.getElementById("totalBill");
+
+        calculateBtn.addEventListener("click", () => {
+
+            let billAmount = parseFloat(bill.value);
+            let tipAmount = parseFloat(tip.value);
+
+            if(isNaN(billAmount) || isNaN(tipAmount)) {
+                alert("Please Enter Valid Amount!");
+                return;
+            }
+
+            const totalBillAmount = ((billAmount * tipAmount) / 100 + billAmount).toFixed(2);
+            totalBill.textContent = `Total Bill : ${totalBillAmount}`;
+        });
+
+    </script>
+
+</body>
+</html>

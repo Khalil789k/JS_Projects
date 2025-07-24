@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL CLOCK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-gray-800 w-2/5 p-5 flex flex-col justify-center items-center rounded-xl">
+            <div id="date" class="text-3xl text-white">Saturday 26 May 2025</div>
+            <ul id="time" class="flex text-9xl text-white">
+                <li>03</li>
+                <li>:</li>
+                <li>56</li>
+                <li>:</li>
+                <li>45</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+
+        function updateClock() {
+        const today = new Date();
+
+        let hours = today.getHours();
+        hours = hours % 12 || 12;
+        hours = String(hours).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        const seconds = String(today.getSeconds()).padStart(2, '0');
+
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const dayName = days[today.getDay()];
+        const day = today.getDate();
+        const month = months[today.getMonth()];
+        const year = today.getFullYear();
+
+        document.getElementById("date").textContent = `${dayName} ${day} ${month} ${year}`;
+        document.getElementById("time").innerHTML = `<li>${hours}</li>
+                <li>:</li>
+                <li>${minutes}</li>
+                <li>:</li>
+                <li>${seconds}</li>`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>

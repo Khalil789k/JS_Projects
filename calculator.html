@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CALCULATOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<style type="text/tailwindcss">
+    .btn {
+      @apply bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-200;
+    }
+
+    .operator {
+      @apply bg-orange-500 hover:bg-orange-600;
+    }
+  </style>
+
+
+  </head>
+
+
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen ">
+
+    <div class="bg-green-400 shadow-lg rounded-xl w-72 p-6">
+      <input id="display" readonly class="bg-gray-50 w-full text-right text-2xl p-2 mb-4 border rounded-md"/>
+
+      <div class="grid grid-cols-4 gap-3">
+
+        <button class="btn">7</button>
+        <button class="btn">8</button>
+        <button class="btn">9</button>
+        <button class="btn operator">/</button>
+
+        <button class="btn">4</button>
+        <button class="btn">5</button>
+        <button class="btn">6</button>
+        <button class="btn operator">*</button>
+
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn operator">-</button>
+
+        <button class="btn">0</button>
+        <button class="btn">C</button>
+        <button class="btn">=</button>
+        <button class="btn operator">+</button>
+
+      </div>
+
+    </div>
+
+    <script>
+
+      const display = document.getElementById("display");
+      const buttons = document.querySelectorAll(".btn");
+
+      let expression = "";
+
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const value = button.textContent;
+
+          if (value === "C") {
+            expression = "";
+          } else if(value === "=") {
+            try {
+              expression = eval(expression);
+            } catch (error) {
+              expression = "Error"
+            }
+          } else {
+            expression += value;
+          }
+
+          display.value = expression;
+
+        });
+      });
+      
+    </script>
+
+  </body>
+</html>

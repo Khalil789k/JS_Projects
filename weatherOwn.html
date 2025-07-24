@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="min-h-screen bg-gradient-to-b from-sky-100 to-blue-200 backdrop-blur-xl">
+        <div class="flex justify-between p-4">
+            <p class="text-gray-800 text-4xl font-semibold ml-11">WeatherApp</p>
+            <div class="w-3/12  bg-white mr-10 flex items-center rounded-full px-4 ">
+                <img src="WeatherImages/search.png" alt="" class="h-5 w-5">
+                <input id="inputSearch" class="w-full outline-none bg-transparent ml-3 text-xl placeholder-gray-700" type="text" placeholder="Search">
+            </div>
+        </div>
+        <div class="w-full h-[85vh] flex justify-center pt-20 text-gray-800">
+            <div class="w-1/2 h-[43vh] flex justify-center flex-col">
+                <div id="cityName" class="text-7xl pb-4 font-semibold">Mianwali</div>
+                <div id="temp" class="text-6xl font-medium">72 °C</div>
+                <div id="main" class="text-5xl pb-4 font-medium">clear</div>
+                <div class="flex gap-12">
+                    <div class="text-xl">
+                        <div class="flex justify-between gap-3">
+                            <div>High</div>
+                            <div id="highTemp">78 C</div>
+                        </div>
+                        <div class="flex justify-between gap-3">
+                            <div>Humidity</div>
+                            <div id="humidity">55%</div>
+                        </div>
+                    </div>
+                    <div class="text-xl">
+                        <div class="flex justify-between gap-3">
+                            <div>Low</div>
+                            <div id="lowTemp">65 C</div>
+                        </div>
+                        <div class="flex justify-between gap-3">
+                            <div>Wind</div>
+                            <div id="wind">5mph</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-2/5 h-[43vh] flex justify-center items-center p-0 m-0">
+                <img id="weatherIcon" class="w-auto h-full block scale-150" src="WeatherImages/sun.png" alt="" >
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        const apiKey = "63f5f8e6608dcfa4bcce8c3ba93482fb";
+
+        const input = document.getElementById("inputSearch");
+
+        input.addEventListener("keypress", e => {
+            if(e.key === "Enter") {
+                const city = input.value.trim();
+                input.value = "";
+                if(city !== "") {
+                    fetchWeather(city);
+                }
+            }
+        });
+
+        async function fetchWeather(city) {
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+
+            try {
+                const res = await fetch(url);
+                if(!res.ok) throw new Error("City Not Found!");
+                const data = await res.json();
+            
+                document.getElementById("cityName").textContent = data.name;
+                document.getElementById("temp").textContent = Math.round(data.main.temp) + " °C";
+                document.getElementById("main").textContent = data.weather[0].main;
+                document.getElementById("highTemp").textContent = Math.round(data.main.temp_max) + " °C";
+                document.getElementById("humidity").textContent = data.main.humidity + " %";
+                document.getElementById("lowTemp").textContent = Math.round(data.main.temp_min) + " °C";
+                const windSpeed = Math.round(data.wind.speed * 3.6);
+                document.getElementById("wind").textContent = windSpeed + " km/h"
+
+                const iconCode = data.weather[0].icon;
+                const iconURL = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+                document.getElementById("weatherIcon").src = iconURL;
+            } catch(error) {
+                alert("City Not Found");
+                console.log("Error Fetching Data", error);
+            }
+        }
+
+
+    </script>
+</body>
+</html>

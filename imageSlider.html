@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div>
+        <button id="pButton" class="text-7xl text-red-600 absolute left-5 top-1/2">&lArr;</button>
+        <img id="image" class="w-full h-screen" src="" alt="">
+        <button id="nButton" class="text-7xl text-red-600 absolute right-5 top-1/2">&rArr;</button>
+    </div>
+
+    <script>
+
+        const image = document.getElementById("image");
+        const pButton = document.getElementById("pButton");
+        const nButton = document.getElementById("nButton");
+
+        const imageArray = ["SliderImages/0.jpg",
+            "SliderImages/1.jpg",
+            "SliderImages/2.jpg",
+            "SliderImages/3.jpg",
+            "SliderImages/4.jpg",
+            "SliderImages/5.jpg",
+            "SliderImages/6.jpg",
+            "SliderImages/7.jpg",
+            "SliderImages/8.jpg",
+            "SliderImages/9.jpg"
+        ];
+
+        let currentIndex = 0;
+        
+        function showImage(index) {
+            image.src = imageArray[index];
+        }
+
+        nButton.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % imageArray.length;
+            showImage(currentIndex);
+        });
+
+        pButton.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1  + imageArray.length) % imageArray.length;
+            showImage(currentIndex);
+        });
+
+        showImage(currentIndex);
+
+    </script>
+
+</body>
+</html>
