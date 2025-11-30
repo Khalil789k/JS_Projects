@@ -8,20 +8,37 @@
 </head>
 <body>
 
-    <div class="bg-blue-800 flex justify-center items-center min-h-screen">
-        <div class="w-2/5 bg-white rounded-md p-4 text-gray-700">
-            <div class="font-bold text-2xl border-b-2 border-gray-700 pb-3">QUIZ APP</div>
-            <div id="questionText" class="text-xl py-2 mb-3">Question Goes Here ...</div>
-            <div id="optionsEl" class="flex flex-col gap-y-1">
-                <!-- Options will be added here using JS -->
+    <div class="bg-blue-800 flex justify-center items-center min-h-screen p-4">
+        <!-- Responsive width -->
+        <div class="w-full sm:w-3/4 md:w-1/2 lg:w-2/5 bg-white rounded-md p-4 text-gray-700 shadow-xl">
+
+            <div class="font-bold text-2xl border-b-2 border-gray-700 pb-3 text-center">
+                QUIZ APP
             </div>
+
+            <div id="questionText" class="text-xl py-2 mb-3 text-center">
+                Question Goes Here...
+            </div>
+
+            <!-- Options -->
+            <div id="optionsEl" class="flex flex-col gap-y-2">
+                <!-- Options added by JS -->
+            </div>
+
             <div class="flex justify-center mt-4">
-                <button id="nextBtn" class="bg-blue-700 w-1/4 p-1 text-white font-semibold rounded-md">Next</button>
+                <button id="nextBtn" class="bg-blue-700 w-1/2 sm:w-1/3 p-2 text-white font-semibold rounded-md">
+                    Next
+                </button>
             </div>
-            <div id="resultsText" class="text-xl text-center font-semibold py-2 mt-4 hidden">Results Goes Here ...</div>
+
+            <div id="resultsText" class="text-xl text-center font-semibold py-2 mt-4 hidden"></div>
+
             <div class="flex justify-center mt-4">
-                <button id="retryBtn" class="bg-blue-700 w-1/4 p-1 text-white font-semibold rounded-md hidden">Retry</button>
+                <button id="retryBtn" class="bg-blue-700 w-1/2 sm:w-1/3 p-2 text-white font-semibold rounded-md hidden">
+                    Retry
+                </button>
             </div>
+
         </div>
     </div>
 
@@ -55,7 +72,6 @@
             }
         ];
 
-
         const questionText = document.getElementById("questionText");
         const optionsEl = document.getElementById("optionsEl");
         const nextBtn = document.getElementById("nextBtn");
@@ -73,7 +89,7 @@
             questionsArray[currentIndex].options.forEach(option => {
                 const btn = document.createElement("button");
                 btn.textContent = option;
-                btn.className = "px-2 py-0.5 rounded-md text-left border-2 border-gray-700";
+                btn.className = "px-3 py-2 rounded-md text-left border-2 border-gray-700 hover:bg-gray-100 transition";
                 btn.onclick = () => checkAnswer(btn, questionsArray[currentIndex].correct);
                 optionsEl.appendChild(btn);
             });
@@ -90,9 +106,9 @@
 
             allButtons.forEach(btn => {
                 if(btn.textContent === correctAnswer) {
-                    btn.classList.add("bg-green-500");
+                    btn.classList.add("bg-green-500", "text-white");
                 } else if(btn === button) {
-                    btn.classList.add("bg-red-500");
+                    btn.classList.add("bg-red-500", "text-white");
                 }
             });
 
@@ -103,7 +119,7 @@
 
         nextBtn.addEventListener("click", () => {
 
-            if(!selected) return alert("Answer the question first!");
+            if(!selected) return alert("Please select an answer!");
 
             currentIndex++;
             selected = false;
@@ -142,7 +158,6 @@
             retryBtn.classList.add("hidden");
 
             showData();
-
         });
 
         showData();
