@@ -6,26 +6,28 @@
     <title>CALCULATOR</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
-<style type="text/tailwindcss">
-    .btn {
-      @apply bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-200;
-    }
-
-    .operator {
-      @apply bg-orange-500 hover:bg-orange-600;
-    }
-  </style>
-
-
+    <style type="text/tailwindcss">
+      .btn {
+        @apply bg-blue-500 text-white font-semibold py-3 rounded-xl hover:bg-blue-600 transition duration-200 text-lg;
+      }
+      .operator {
+        @apply bg-orange-500 hover:bg-orange-600;
+      }
+    </style>
   </head>
 
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
 
-  <body class="bg-gray-100 flex justify-center items-center min-h-screen ">
+    <!-- Responsive Calculator Box -->
+    <div class="bg-green-400 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md p-6">
 
-    <div class="bg-green-400 shadow-lg rounded-xl w-72 p-6">
-      <input id="display" readonly class="bg-gray-50 w-full text-right text-2xl p-2 mb-4 border rounded-md"/>
+      <!-- Display -->
+      <input id="display"
+        readonly
+        class="bg-white w-full text-right text-3xl p-4 mb-5 border rounded-xl shadow-inner" />
 
-      <div class="grid grid-cols-4 gap-3">
+      <!-- Buttons -->
+      <div class="grid grid-cols-4 gap-4">
 
         <button class="btn">7</button>
         <button class="btn">8</button>
@@ -64,21 +66,22 @@
 
           if (value === "C") {
             expression = "";
-          } else if(value === "=") {
+          } 
+          else if (value === "=") {
             try {
               expression = eval(expression);
-            } catch (error) {
-              expression = "Error"
+            } catch {
+              expression = "Error";
             }
-          } else {
+          } 
+          else {
             expression += value;
           }
 
           display.value = expression;
-
         });
       });
-      
+
     </script>
 
   </body>
