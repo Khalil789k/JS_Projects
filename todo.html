@@ -7,20 +7,25 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-400 flex justify-center mt-24 min-h-screen">
-    
-    <div class="p-4 w-2/5">
-        <div class="flex">
-            <input type="text" class="w-3/4 rounded-l-full py-3 pl-6 pr-3 outline-none">
-            <button class="w-1/4 bg-red-600 rounded-r-full py-3 text-white">Add</button>
+<body class="bg-blue-400 flex justify-center items-start pt-24 min-h-screen px-4">
+
+    <!-- Responsive Container -->
+    <div class="p-4 w-full sm:w-3/4 md:w-2/3 lg:w-2/5">
+
+        <!-- Input & Button -->
+        <div class="flex w-full">
+            <input type="text" 
+                   class="w-3/4 sm:w-4/5 rounded-l-full py-3 pl-6 pr-3 outline-none text-sm sm:text-base" 
+                   placeholder="Enter a task">
+            <button class="w-1/4 sm:w-1/5 bg-red-600 rounded-r-full py-3 text-white text-sm sm:text-base">
+                Add
+            </button>
         </div>
-        
 
-    <div class="bg-white mt-4 p-6 rounded-2xl shadow-md">
-    <ul class="space-y-3">
-
-    </ul>
-</div>
+        <!-- Tasks Box -->
+        <div class="bg-white mt-4 p-6 rounded-2xl shadow-md">
+            <ul class="space-y-3"></ul>
+        </div>
 
     </div>
 
@@ -31,20 +36,23 @@
         const taskList = document.querySelector("ul");
 
         addBtn.addEventListener("click", () => {
-            if(inputBox.value === "") {
+            if (inputBox.value === "") {
                 alert("Write Some Task!");
             } else {
                 const li = document.createElement("li");
-                li.className = "flex items-center justify-between p-4 cursor-pointer";
-                li.innerHTML = `<div class="flex items-center space-x-3">
-                <input type="checkbox" class="h-5 w-5 text-red-600 rounded focus:ring-red-500 cursor-pointer">
-                <span class="text-gray-800 font-medium">${inputBox.value}</span>
-            </div>
-            <button class="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-100 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-            </button>`;
+                li.className = "flex items-center justify-between p-4 cursor-pointer bg-gray-50 rounded-xl";
+                li.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" class="h-5 w-5 text-red-600 rounded cursor-pointer">
+                        <span class="text-gray-800 font-medium break-all">${inputBox.value}</span>
+                    </div>
+
+                    <button class="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                `;
                 taskList.appendChild(li);
             }
             inputBox.value = "";
@@ -52,18 +60,12 @@
         });
 
         taskList.addEventListener("click", e => {
-            if(e.target.closest("button")) {
+            if (e.target.closest("button")) {
                 e.target.closest("li").remove();
                 saveData();
-            } else if(e.target.matches("input[type = 'checkbox']")) {
+            } 
+            else if (e.target.matches("input[type='checkbox']")) {
                 const span = e.target.nextElementSibling;
-
-                if(e.target.checked) {
-                    e.target.setAttribute("checked", "checked");
-                } else {
-                    e.target.removeAttribute("checked");
-                }
-
                 span.classList.toggle("line-through");
                 span.classList.toggle("text-gray-400");
                 saveData();
@@ -75,7 +77,8 @@
         }
 
         function showData() {
-            taskList.innerHTML = localStorage.getItem("data");
+            const data = localStorage.getItem("data");
+            if (data) taskList.innerHTML = data;
         }
 
         showData();
